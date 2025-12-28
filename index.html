@@ -2,498 +2,506 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Survival Freunde — Wartungsarbeiten</title>
-  <meta name="description" content="Survival Freunde — Website in Wartungsarbeiten. Minecraft Server bleibt erreichbar." />
-  <meta name="theme-color" content="#7ad7d9" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Survival Freunde • Wartungsarbeiten</title>
+  <meta name="description" content="Survival Freunde – Minecraft Survival Server. Website in Wartungsarbeiten. Server läuft weiter: mc.survival-freunde.de" />
+
+  <!-- Favicon / Logo -->
+  <link rel="icon" href="server-icon.png" />
+  <link rel="apple-touch-icon" href="server-icon.png" />
 
   <style>
     :root{
-      --bg1:#eafcff;
-      --bg2:#fff7ee;
-      --card: rgba(255,255,255,.75);
-      --border: rgba(10, 20, 30, .10);
-      --shadow: 0 18px 55px rgba(10,20,30,.12);
-      --text:#0b1420;
-      --muted: rgba(11, 20, 32, .62);
-      --aqua:#16d2d2;
-      --aqua2:#0aa7b8;
-      --red:#7a0b16;
-      --pill: rgba(255,255,255,.55);
-      --pillBorder: rgba(10,20,30,.10);
-      --radius: 20px;
-      --max: 1100px;
+      --bg0:#070a0f;
+      --bg1:#0b1220;
+      --card:#0f1a2caa;
+      --stroke:#1f2e4a;
+      --text:#e9f2ff;
+      --muted:#b7c7e2;
+      --aqua:#31d3c6;
+      --green:#6bff95;
+      --wood:#caa06a;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 22px;
+      --max: 1120px;
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color:var(--text);
-      min-height:100vh;
       background:
-        radial-gradient(900px 500px at 15% 10%, rgba(22,210,210,.20), transparent 60%),
-        radial-gradient(900px 500px at 85% 5%, rgba(122,11,22,.16), transparent 55%),
-        radial-gradient(1200px 800px at 50% 120%, rgba(10,167,184,.16), transparent 55%),
-        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+        radial-gradient(1200px 600px at 50% -10%, rgba(49,211,198,.22), transparent 55%),
+        radial-gradient(900px 500px at 15% 10%, rgba(107,255,149,.12), transparent 50%),
+        radial-gradient(900px 500px at 85% 15%, rgba(202,160,106,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
       overflow-x:hidden;
     }
 
-    /* Subtiles Minecraft-Pattern (Blockgrid + leichte Noise-Anmutung) */
-    .minecraft-bg{
-      position: fixed;
-      inset: 0;
+    /* subtle Minecraft-ish grid */
+    .grid{
+      position:fixed; inset:0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(900px 450px at 50% 0%, #000 50%, transparent 100%);
       pointer-events:none;
       opacity:.55;
-      background:
-        linear-gradient(transparent 31px, rgba(10,20,30,.045) 32px),
-        linear-gradient(90deg, transparent 31px, rgba(10,20,30,.045) 32px);
-      background-size: 32px 32px;
-      mix-blend-mode: multiply;
     }
-    .glow-orb{
-      position: fixed;
-      width: 520px; height: 520px;
-      border-radius: 50%;
-      filter: blur(35px);
-      opacity:.55;
-      pointer-events:none;
+
+    /* top nav */
+    .nav{
+      position:sticky; top:0; z-index:5;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(7,10,15,.75), rgba(7,10,15,.25));
+      border-bottom: 1px solid rgba(255,255,255,.06);
     }
-    .orb1{left:-160px; top:-160px; background: radial-gradient(circle, rgba(22,210,210,.55), transparent 60%);}
-    .orb2{right:-180px; top:-140px; background: radial-gradient(circle, rgba(122,11,22,.40), transparent 65%);}
-    .orb3{left:30%; bottom:-240px; background: radial-gradient(circle, rgba(10,167,184,.35), transparent 65%);}
-
-    .wrap{max-width:var(--max); margin:0 auto; padding:26px 22px 40px;}
-
-    header{
+    .nav-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:14px;
-      padding:10px 0 22px;
+      gap:12px;
     }
-    .brand{display:flex; gap:12px; align-items:center;}
-    .logo{
-      width:44px; height:44px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, rgba(22,210,210,.95), rgba(10,167,184,.60));
-      box-shadow: 0 12px 28px rgba(22,210,210,.25);
-      border:1px solid rgba(255,255,255,.65);
-      position:relative;
-      overflow:hidden;
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; color:var(--text);
+      font-weight:800; letter-spacing:.2px;
     }
-    .logo:before{
-      content:"";
-      position:absolute; inset:-50%;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), transparent 40%),
-        radial-gradient(circle at 70% 70%, rgba(122,11,22,.30), transparent 45%);
-      transform: rotate(25deg);
+    .brand img{
+      width:34px;height:34px;border-radius:10px;
+      image-rendering: pixelated;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.15);
     }
-    .brand h1{font-size:16px; margin:0; letter-spacing:.2px;}
-    .tag{font-size:12px; color:var(--muted); margin-top:2px;}
-
-    .toplinks{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
     .pill{
-      text-decoration:none;
-      font-size:13px;
-      padding:10px 12px;
-      border-radius: 999px;
-      background: var(--pill);
-      border:1px solid var(--pillBorder);
-      color: rgba(11,20,32,.74);
-      transition:.15s ease;
-      backdrop-filter: blur(8px);
+      font-size:12px;
+      color: rgba(233,242,255,.9);
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(49,211,198,.35);
+      background: rgba(49,211,198,.12);
     }
-    .pill:hover{transform: translateY(-1px); color: rgba(11,20,32,.92); border-color: rgba(10,20,30,.18);}
 
+    /* hero */
     .hero{
-      border: 1px solid var(--border);
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 26px;
       position:relative;
-      overflow:hidden;
-      backdrop-filter: blur(12px);
+      padding:72px 18px 32px;
     }
-
-    /* Minecraft-artiger “Boden” als Footer-Leiste */
-    .grass-strip{
-      position:absolute;
-      left:0; right:0; bottom:0;
-      height: 88px;
-      background:
-        linear-gradient(180deg, rgba(52, 168, 83, .18) 0%, rgba(52, 168, 83, .10) 35%, rgba(92, 64, 51, .12) 36%, rgba(92, 64, 51, .10) 100%),
-        linear-gradient(90deg, rgba(10,20,30,.05) 1px, transparent 1px);
-      background-size: 32px 32px;
-      border-top: 1px solid rgba(10,20,30,.08);
-      opacity:.95;
-    }
-
-    .grid{
+    .hero-inner{
+      max-width:var(--max);
+      margin:0 auto;
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:18px;
-      position:relative;
-      z-index:1;
+      grid-template-columns: 1.1fr .9fr;
+      gap:24px;
+      align-items:center;
     }
     @media (max-width: 900px){
-      .grid{grid-template-columns: 1fr}
-      .toplinks{justify-content:flex-start}
+      .hero-inner{grid-template-columns:1fr}
     }
 
-    .headline{
-      font-size: 44px;
-      line-height: 1.05;
-      margin:0 0 10px;
-      letter-spacing: -0.8px;
-    }
-    .accent{color: var(--aqua2);}
-    .sub{
-      margin: 0 0 16px;
-      color: rgba(11,20,32,.70);
-      font-size: 16px;
-      max-width: 62ch;
-    }
-
-    .badge{
+    .kicker{
       display:inline-flex;
       align-items:center;
       gap:10px;
-      padding:10px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.70);
-      border:1px solid rgba(10,20,30,.10);
-      color: rgba(11,20,32,.85);
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 12px;
-      backdrop-filter: blur(8px);
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(233,242,255,.95);
+      font-weight:650;
+      font-size:13px;
     }
-    .wrench{
-      width:18px; height:18px; border-radius:6px;
-      background: linear-gradient(135deg, rgba(122,11,22,.92), rgba(122,11,22,.55));
-      box-shadow: 0 10px 26px rgba(122,11,22,.18);
-      position:relative;
-    }
-    .wrench:before{
-      content:"";
-      position:absolute; inset:4px;
-      border-radius:4px;
-      background: rgba(255,255,255,.35);
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: var(--green);
+      box-shadow: 0 0 0 6px rgba(107,255,149,.12);
     }
 
-    .ctaRow{display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px;}
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4vw, 52px);
+      line-height:1.05;
+      letter-spacing:-.6px;
+    }
+    .sub{
+      color: var(--muted);
+      font-size: 16.5px;
+      line-height:1.5;
+      max-width: 62ch;
+      margin:0 0 18px;
+    }
+
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin: 18px 0 6px;
+    }
     .btn{
+      appearance:none;
       border:none;
       cursor:pointer;
-      user-select:none;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight:750;
+      letter-spacing:.15px;
       display:inline-flex;
       align-items:center;
-      justify-content:center;
       gap:10px;
-      padding:12px 14px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.70);
-      border: 1px solid rgba(10,20,30,.10);
-      color: rgba(11,20,32,.92);
-      font-weight: 800;
-      transition:.15s ease;
-      backdrop-filter: blur(10px);
+      transition: transform .12s ease, filter .12s ease, background .12s ease;
+      text-decoration:none;
     }
-    .btn:hover{transform: translateY(-1px); border-color: rgba(10,20,30,.16);}
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(22,210,210,.95), rgba(10,167,184,.72));
-      border-color: rgba(10,167,184,.25);
-      color: #031016;
-      box-shadow: 0 14px 28px rgba(22,210,210,.16);
+    .btn:active{transform: translateY(1px)}
+    .btn-primary{
+      background: linear-gradient(135deg, rgba(49,211,198,.95), rgba(107,255,149,.75));
+      color: #051015;
+      box-shadow: 0 18px 50px rgba(49,211,198,.22);
     }
-    .btn.ghost{
-      background: rgba(255,255,255,.55);
-      color: rgba(11,20,32,.78);
-      font-weight: 700;
+    .btn-secondary{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color: var(--text);
     }
-
-    .panel{
-      border: 1px solid rgba(10,20,30,.10);
-      background: rgba(255,255,255,.62);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: 0 12px 35px rgba(10,20,30,.08);
-      backdrop-filter: blur(12px);
-    }
-    .kpi{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    .k{
-      border:1px solid rgba(10,20,30,.10);
-      border-radius: 16px;
-      padding: 12px;
-      background: rgba(255,255,255,.65);
-    }
-    .k .label{font-size:12px; color: rgba(11,20,32,.62);}
-    .k .value{font-size:16px; font-weight: 900; margin-top: 6px;}
-
-    .ipbox{
+    .copybox{
+      margin-top:10px;
       display:flex;
-      gap:10px;
       align-items:center;
-      justify-content:space-between;
-      border:1px solid rgba(10,20,30,.10);
-      border-radius: 16px;
-      padding: 12px;
-      background: rgba(255,255,255,.65);
-      margin-top: 12px;
+      gap:10px;
+      padding:12px 12px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(15,26,44,.45);
+      box-shadow: var(--shadow);
+      width: fit-content;
+      max-width: 100%;
     }
     .ip{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 14px;
-      color: rgba(11,20,32,.86);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: rgba(233,242,255,.95);
+      font-weight:800;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
+      max-width:min(520px, 70vw);
     }
-    .hint{font-size:12px; color: rgba(11,20,32,.62); margin-top: 10px;}
+    .hint{
+      font-size:12px;
+      color: rgba(183,199,226,.9);
+      margin-top: 8px;
+    }
 
-    .cards{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
+    /* right hero card */
+    .panel{
       position:relative;
-      z-index:1;
-      padding-bottom: 70px; /* Platz für Grasleiste */
+      border-radius: var(--radius2);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(1000px 600px at 20% 0%, rgba(49,211,198,.16), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      min-height: 320px;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity:.22;
+      pointer-events:none;
+    }
+    .panel-inner{
+      position:relative;
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .logo-big{
+      display:flex; align-items:center; gap:14px;
+    }
+    .logo-big img{
+      width:64px; height:64px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      image-rendering: pixelated;
+      background: rgba(0,0,0,.10);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    .logo-big .t1{font-weight:900; font-size:20px}
+    .logo-big .t2{color:rgba(183,199,226,.92); font-size:13px}
+
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:2px;
+    }
+    .badge{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      color: rgba(233,242,255,.92);
+    }
+    .badge strong{color: var(--aqua)}
+
+    .status{
+      margin-top:auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .status div{
+      color: rgba(233,242,255,.92);
+      font-size:13px;
+    }
+    .status span{color: rgba(183,199,226,.9)}
+
+    /* features */
+    .section{
+      max-width:var(--max);
+      margin: 0 auto;
+      padding: 16px 18px 60px;
+    }
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top: 16px;
     }
     @media (max-width: 900px){
       .cards{grid-template-columns:1fr}
     }
     .card{
-      border:1px solid rgba(10,20,30,.10);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.60);
-      padding: 16px;
-      box-shadow: 0 10px 28px rgba(10,20,30,.07);
-      backdrop-filter: blur(10px);
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(15,26,44,.45);
+      box-shadow: 0 14px 45px rgba(0,0,0,.35);
+      padding: 16px 16px;
+      min-height: 150px;
+      position:relative;
+      overflow:hidden;
     }
-    .card h3{margin:0 0 8px; font-size:14px;}
-    .card p{margin:0; color: rgba(11,20,32,.68); font-size:13px; line-height: 1.5;}
+    .card::after{
+      content:"";
+      position:absolute; inset:-60px -60px auto auto;
+      width:160px; height:160px;
+      background: radial-gradient(circle at 30% 30%, rgba(49,211,198,.22), transparent 60%);
+      transform: rotate(20deg);
+      pointer-events:none;
+    }
+    .card h3{
+      margin: 8px 0 6px;
+      font-size: 16px;
+      letter-spacing:.1px;
+    }
+    .card p{
+      margin:0;
+      color: rgba(183,199,226,.92);
+      font-size: 14px;
+      line-height:1.45;
+    }
+    .icon{
+      width:36px; height:36px;
+      border-radius: 12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
 
+    /* footer */
     footer{
-      margin: 20px 0 10px;
-      color: rgba(11,20,32,.55);
-      font-size: 12px;
+      padding: 22px 18px 28px;
+      color: rgba(183,199,226,.85);
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(7,10,15,.35);
+    }
+    .foot{
+      max-width:var(--max);
+      margin:0 auto;
       display:flex;
       justify-content:space-between;
-      gap:10px;
+      gap:12px;
       flex-wrap:wrap;
+      align-items:center;
+      font-size: 13px;
     }
-
+    .foot a{color: rgba(233,242,255,.9); text-decoration:none}
     .toast{
       position: fixed;
       left: 50%;
       bottom: 18px;
       transform: translateX(-50%);
-      background: rgba(255,255,255,.85);
-      border:1px solid rgba(10,20,30,.10);
-      color: rgba(11,20,32,.9);
       padding: 10px 12px;
-      border-radius: 999px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.70);
+      border:1px solid rgba(255,255,255,.12);
+      color: rgba(233,242,255,.92);
       font-size: 13px;
-      backdrop-filter: blur(12px);
-      opacity: 0;
+      opacity:0;
       pointer-events:none;
-      transition: .2s ease;
-      box-shadow: 0 12px 30px rgba(10,20,30,.10);
+      transition: opacity .15s ease, transform .15s ease;
+      z-index: 20;
     }
-    .toast.show{opacity:1; transform: translateX(-50%) translateY(-2px);}
-
-    .statusDot{
-      display:inline-block;
-      width:8px; height:8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 18px rgba(34,197,94,.35);
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-
-    /* “Maintenance”-Kasten */
-    .maintenance{
-      border: 1px dashed rgba(122,11,22,.25);
-      background: rgba(122,11,22,.06);
-      border-radius: 16px;
-      padding: 12px 12px;
-      margin-top: 10px;
-      color: rgba(122,11,22,.85);
-      font-weight: 800;
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .maintenance .mini{
-      width: 22px; height: 22px; border-radius: 8px;
-      background: rgba(122,11,22,.85);
-      box-shadow: 0 10px 18px rgba(122,11,22,.14);
-      flex: 0 0 auto;
-      position:relative;
-    }
-    .maintenance .mini:before{
-      content:"";
-      position:absolute; inset:6px;
-      border-radius:5px;
-      background: rgba(255,255,255,.35);
-    }
-    .maintenance small{
-      display:block;
-      font-weight:700;
-      color: rgba(11,20,32,.58);
-      margin-top: 4px;
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-4px);
     }
   </style>
 </head>
 
 <body>
-  <div class="minecraft-bg" aria-hidden="true"></div>
-  <div class="glow-orb orb1" aria-hidden="true"></div>
-  <div class="glow-orb orb2" aria-hidden="true"></div>
-  <div class="glow-orb orb3" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
 
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <img src="server-icon.png" alt="Survival Freunde Logo">
+        <span>Survival Freunde</span>
+      </a>
+      <span class="pill">Website: Wartungsarbeiten • Server läuft</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
         <div>
-          <h1>Survival Freunde</h1>
-          <div class="tag">Minecraft Survival • Version <span style="color:var(--red);font-weight:900;">1.21.10</span></div>
-        </div>
-      </div>
-
-      <nav class="toplinks">
-        <!-- Links hier später ersetzen -->
-        <a class="pill" href="#" onclick="return false;">Discord (Link eintragen)</a>
-        <a class="pill" href="#" onclick="return false;">Regeln</a>
-        <a class="pill" href="#" onclick="return false;">Team</a>
-      </nav>
-    </header>
-
-    <main class="hero">
-      <div class="grid">
-        <section>
-          <div class="badge"><span class="wrench" aria-hidden="true"></span>Website befindet sich in Wartungsarbeiten</div>
-
-          <h2 class="headline">Wir bauen gerade um — <span class="accent">bis gleich!</span></h2>
-
+          <span class="kicker"><span class="dot"></span> Minecraft Survival • Community • Fairplay</span>
+          <h1>Wir bauen gerade um.<br>Der Server läuft weiter.</h1>
           <p class="sub">
-            Unsere Website wird aktuell modernisiert. Der Minecraft-Server bleibt natürlich erreichbar.
-            Wenn du joinen willst: kopiere einfach die Adresse unten.
+            Unsere Website bekommt ein frisches, modernes Design im Minecraft-Survival-Stil.
+            In der Zwischenzeit kannst du ganz normal joinen.
           </p>
 
-          <div class="maintenance">
-            <span class="mini" aria-hidden="true"></span>
-            <div>
-              Wartungsinfo: Inhalte, Links und Design werden gerade überarbeitet.
-              <small>Der Server läuft normal weiter — die Website kommt bald.</small>
-            </div>
+          <div class="cta-row">
+            <button class="btn btn-primary" id="copyBtn" type="button" title="IP kopieren">
+              📋 Join-IP kopieren
+            </button>
+            <a class="btn btn-secondary" href="#info" aria-label="Mehr Infos">
+              ℹ️ Mehr Infos
+            </a>
           </div>
 
-          <div class="ctaRow">
-            <button class="btn primary" id="copyBtn" type="button">Server-Adresse kopieren</button>
-            <a class="btn ghost" href="#join">So joinst du</a>
+          <div class="copybox" role="group" aria-label="Join-Adresse">
+            <div class="ip" id="ipText">mc.survival-freunde.de</div>
+            <button class="btn btn-secondary" style="padding:10px 12px;border-radius:12px" id="copyMini" type="button">
+              Kopieren
+            </button>
           </div>
+          <div class="hint">Tipp: In Minecraft → Multiplayer → Server hinzufügen → Adresse einfügen.</div>
+        </div>
 
-          <div class="hint" id="join" style="margin-top:12px">
-            <span class="statusDot"></span>
-            Server online • Paper 1.21.10 • Slots: 69
-          </div>
-        </section>
+        <aside class="panel" aria-label="Server-Karte">
+          <div class="panel-inner">
+            <div class="logo-big">
+              <img src="server-icon.png" alt="Survival Freunde Icon">
+              <div>
+                <div class="t1">Survival Freunde</div>
+                <div class="t2">Paper 1.21.10 • Survival • Langzeitwelt</div>
+              </div>
+            </div>
 
-        <aside class="panel">
-          <div class="kpi">
-            <div class="k">
-              <div class="label">Version</div>
-              <div class="value" style="color:var(--red);">1.21.10</div>
+            <div class="badges" aria-label="Highlights">
+              <span class="badge"><strong>✔</strong> Ruhiger Look</span>
+              <span class="badge"><strong>✔</strong> Zentrierte MOTD</span>
+              <span class="badge"><strong>✔</strong> LuckPerms Ränge</span>
+              <span class="badge"><strong>✔</strong> TAB Design</span>
+              <span class="badge"><strong>✔</strong> MiniMOTD</span>
             </div>
-            <div class="k">
-              <div class="label">Spielmodus</div>
-              <div class="value">Survival</div>
-            </div>
-            <div class="k">
-              <div class="label">Regeln</div>
-              <div class="value">Fairplay</div>
-            </div>
-            <div class="k">
-              <div class="label">Status</div>
-              <div class="value">Online</div>
-            </div>
-          </div>
 
-          <div class="ipbox" aria-label="Serveradresse">
-            <div class="ip" id="serverIp">mc.survival-freunde.de</div>
-            <button class="btn" id="copyBtn2" type="button">Kopieren</button>
-          </div>
-
-          <div class="hint">
-            In Minecraft → Multiplayer → Server hinzufügen → Adresse einfügen.
+            <div class="status" id="info">
+              <div><b>Status:</b> <span>Online (Website im Umbau)</span></div>
+              <div><b>Slots:</b> <span>69</span></div>
+              <div><b>Modus:</b> <span>Survival</span></div>
+            </div>
           </div>
         </aside>
       </div>
+    </section>
 
-      <section class="cards" aria-label="Highlights">
+    <section class="section" aria-label="Kurzinfos">
+      <div class="cards">
         <div class="card">
-          <h3>🌤️ Freundlich & modern</h3>
-          <p>Heller Look mit Minecraft-Block-Pattern — modern, aber trotzdem server-typisch.</p>
+          <div class="icon">🧱</div>
+          <h3>Survival, wie er sein soll</h3>
+          <p>Langfristiges Spielen, fairer Umgang und eine Community, die zusammen baut statt kaputt macht.</p>
         </div>
         <div class="card">
-          <h3>🧱 Minecraft-Vibes</h3>
-          <p>Subtile Raster-Optik + “Grasleiste” unten für den typischen Block-Charme.</p>
+          <div class="icon">🛡️</div>
+          <h3>Stabil & organisiert</h3>
+          <p>Paper 1.21.10, sauberes Rangsystem (LuckPerms) und Ingame-Design über TAB & MiniMOTD.</p>
         </div>
         <div class="card">
-          <h3>🎮 Server bleibt erreichbar</h3>
-          <p>Auch während der Wartung kannst du normal joinen und spielen.</p>
+          <div class="icon">🌿</div>
+          <h3>Modernes Design, Minecraft-Style</h3>
+          <p>Heller, freundlicher Auftritt mit dezentem Block-Pattern – modern statt kitschig.</p>
         </div>
+      </div>
+    </section>
+  </main>
 
-        <div class="grass-strip" aria-hidden="true"></div>
-      </section>
-    </main>
-
-    <footer>
+  <footer>
+    <div class="foot">
       <div>© <span id="year"></span> Survival Freunde</div>
-      <div>Kontakt/Discord-Link eintragen • Impressum/Datenschutz falls nötig</div>
-    </footer>
-  </div>
+      <div>
+        Join: <a href="#" id="copyLink">mc.survival-freunde.de</a> •
+        <span style="opacity:.85">Website im Wartungsmodus</span>
+      </div>
+    </div>
+  </footer>
 
-  <div class="toast" id="toast">Kopiert ✓</div>
+  <div class="toast" id="toast">Kopiert ✅</div>
 
   <script>
-    const ip = document.getElementById('serverIp').textContent.trim();
-    const toast = document.getElementById('toast');
+    const ip = "mc.survival-freunde.de";
+    const toast = document.getElementById("toast");
 
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(()=>toast.classList.remove('show'), 1100);
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"), 1400);
     }
 
-    async function copy(text){
+    async function copyIP(){
       try{
-        await navigator.clipboard.writeText(text);
-        showToast('Adresse kopiert ✓');
+        await navigator.clipboard.writeText(ip);
+        showToast("IP kopiert ✅");
       }catch(e){
-        const ta = document.createElement('textarea');
-        ta.value = text;
+        // Fallback
+        const ta = document.createElement("textarea");
+        ta.value = ip;
         document.body.appendChild(ta);
         ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        showToast('Adresse kopiert ✓');
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("IP kopiert ✅");
       }
     }
 
-    document.getElementById('copyBtn').addEventListener('click', ()=>copy(ip));
-    document.getElementById('copyBtn2').addEventListener('click', ()=>copy(ip));
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById("copyBtn").addEventListener("click", copyIP);
+    document.getElementById("copyMini").addEventListener("click", copyIP);
+    document.getElementById("copyLink").addEventListener("click", (e)=>{ e.preventDefault(); copyIP(); });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

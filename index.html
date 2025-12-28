@@ -1,253 +1,151 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Survival Freunde • Website im Wartungsmodus</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Survival Freunde – Wartungsmodus</title>
 
-  <meta name="description" content="Survival Freunde – Website im Wartungsmodus. Der Minecraft-Server läuft weiter: mc.survival-freunde.de">
+<style>
+:root{
+  --mc3:#00aaaa; /* Minecraft &3 */
+  --white:#ffffff;
+  --glass:rgba(0,0,0,.45);
+}
 
-  <!-- Logo / Favicon -->
-  <link rel="icon" href="server-icon.png">
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
 
-  <style>
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  color:var(--white);
+  background:#05070a;
+  overflow:hidden;
+}
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color: #ffffff;
-      background: #000;
-    }
+/* Minecraft-style pixel background */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(#7ec8ff 0%, #5aa8ff 45%, #3a7a3a 46%, #2e6b2e 100%);
+  z-index:-3;
+}
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      background: url("hero-bg.png") center / cover no-repeat;
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
+/* blocky landscape */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Cg shape-rendering='crispEdges'%3E%3Crect width='1600' height='900' fill='none'/%3E%3C!-- mountains --%3E%3Cpath d='M200 420 L420 220 L640 420 Z' fill='%239aa0a6'/%3E%3Cpath d='M520 420 L760 180 L1000 420 Z' fill='%238b9197'/%3E%3Cpath d='M860 420 L1120 240 L1380 420 Z' fill='%239ea4aa'/%3E%3C!-- trees --%3E%3Cg%3E%3Crect x='180' y='360' width='22' height='90' fill='%235b3a1d'/%3E%3Crect x='150' y='320' width='80' height='60' fill='%232f7f36'/%3E%3Crect x='420' y='350' width='22' height='100' fill='%235b3a1d'/%3E%3Crect x='390' y='310' width='80' height='70' fill='%23348b3c'/%3E%3Crect x='700' y='360' width='22' height='90' fill='%235b3a1d'/%3E%3Crect x='670' y='320' width='80' height='60' fill='%232f7f36'/%3E%3Crect x='1180' y='350' width='22' height='100' fill='%235b3a1d'/%3E%3Crect x='1150' y='310' width='80' height='70' fill='%23348b3c'/%3E%3C/g%3E%3C!-- river --%3E%3Cpath d='M0 520 C300 500 500 540 800 520 C1100 500 1300 560 1600 540 L1600 900 L0 900 Z' fill='%233a87c9'/%3E%3Cpath d='M0 560 C320 540 520 580 820 560 C1120 540 1320 600 1600 580 L1600 900 L0 900 Z' fill='%23449bdd'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:cover;
+  background-position:center;
+  filter:saturate(1.1) contrast(1.05);
+  z-index:-2;
+}
 
-    /* dunkles Overlay für Lesbarkeit */
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(900px 500px at 80% 20%, rgba(255,230,170,0.35), transparent 55%),
-        linear-gradient(90deg, rgba(0,0,0,0.65), rgba(0,0,0,0.25));
-    }
+/* content */
+.wrapper{
+  height:100%;
+  display:flex;
+  align-items:center;
+  padding-left:6vw;
+}
 
-    .content {
-      position: relative;
-      margin-left: clamp(20px, 6vw, 80px);
-      max-width: 1000px;
-      padding: 40px 0;
-    }
+.panel{
+  background:var(--glass);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  padding:36px 42px;
+  max-width:640px;
+}
 
-    /* LOGO */
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
+h1{
+  margin:0 0 14px 0;
+  font-size:64px;
+  line-height:1;
+  font-weight:900;
+  text-shadow:0 8px 30px rgba(0,0,0,.6);
+}
 
-    .logo img {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      image-rendering: pixelated;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(0,0,0,0.2);
-    }
+.status{
+  margin:0 0 26px 0;
+  font-size:22px;
+  font-weight:800;
+  color:var(--mc3);
+  text-shadow:0 4px 18px rgba(0,0,0,.6);
+}
 
-    .logo span {
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: 0.4px;
-    }
+/* IP row */
+.ipRow{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: clamp(48px, 6vw, 88px);
-      font-weight: 900;
-      letter-spacing: -1px;
-      line-height: 1.05;
-      text-shadow: 0 20px 60px rgba(0,0,0,0.45);
-    }
+.ip{
+  font-family:ui-monospace,Consolas,monospace;
+  font-size:18px;
+  padding:14px 18px;
+  border-radius:14px;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.15);
+}
 
-    .sub {
-      font-size: clamp(16px, 1.6vw, 22px);
-      max-width: 60ch;
-      margin-bottom: 22px;
-      color: rgba(255,255,255,0.9);
-      text-shadow: 0 12px 40px rgba(0,0,0,0.45);
-    }
+button{
+  font-size:16px;
+  font-weight:900;
+  padding:14px 20px;
+  border-radius:14px;
+  border:1px solid rgba(0,170,170,.6);
+  background:rgba(0,170,170,.25);
+  color:white;
+  cursor:pointer;
+}
+button:hover{background:rgba(0,170,170,.4)}
 
-    /* INFO BOX */
-    .info {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 16px;
-      padding: 14px 18px;
-      width: fit-content;
-      margin-bottom: 22px;
-      backdrop-filter: blur(6px);
-    }
-
-    .info b {
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    /* BUTTON */
-    .btn {
-      cursor: pointer;
-      background: #f2e2b8;
-      color: #111;
-      border: none;
-      padding: 12px 18px;
-      font-weight: 900;
-      border-radius: 8px;
-      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
-    }
-
-    .btn:active { transform: translateY(1px); }
-
-    /* IP */
-    .ipbox {
-      margin-top: 14px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .ip {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: rgba(255,255,255,0.95);
-    }
-
-    .copy {
-      cursor: pointer;
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #fff;
-      font-weight: 800;
-    }
-
-    /* FOOTER */
-    .footer {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-    }
-
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(20,30,45,0.95);
-      color: white;
-      padding: 10px 14px;
-      border-radius: 12px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.15s ease, transform 0.15s ease;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
-    }
-  </style>
+.toast{
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.7);
+  padding:10px 18px;
+  border-radius:12px;
+  opacity:0;
+  transition:.25s;
+}
+.toast.show{opacity:1}
+</style>
 </head>
 
 <body>
-  <section class="hero">
-    <div class="content">
+<div class="wrapper">
+  <div class="panel">
+    <h1>Survival Freunde</h1>
+    <p class="status">Website im Wartungsmodus.</p>
 
-      <div class="logo">
-        <img src="server-icon.png" alt="Survival Freunde Logo">
-        <span>Survival Freunde</span>
-      </div>
-
-      <h1>Survival Freunde</h1>
-
-      <p class="sub">
-        <b>Website im Wartungsmodus.</b><br>
-        Unsere Website wird aktuell überarbeitet.<br>
-        Der Minecraft-Server läuft weiterhin ganz normal.
-      </p>
-
-      <div class="info">
-        <div>
-          <b>Wartungsarbeiten</b>
-          Du kannst weiterhin spielen – kopiere einfach die Server-IP.
-        </div>
-      </div>
-
-      <button class="btn" id="copyBtn">Server-IP kopieren</button>
-
-      <div class="ipbox">
-        <div class="ip" id="ipText">mc.survival-freunde.de</div>
-        <div class="copy" id="copyMini">Kopieren</div>
-      </div>
-
+    <div class="ipRow">
+      <div class="ip" id="ip">mc.survival-freunde.de</div>
+      <button id="copy">Kopieren</button>
     </div>
+  </div>
+</div>
 
-    <div class="footer">
-      © <span id="year"></span> Survival Freunde · mc.survival-freunde.de
-    </div>
-  </section>
+<div class="toast" id="toast">IP kopiert!</div>
 
-  <div class="toast" id="toast">IP kopiert ✅</div>
+<script>
+const btn=document.getElementById("copy");
+const ip=document.getElementById("ip").innerText;
+const toast=document.getElementById("toast");
 
-  <script>
-    const ip = "mc.survival-freunde.de";
-    const toast = document.getElementById("toast");
-
-    function showToast() {
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 1400);
-    }
-
-    async function copyIP() {
-      try {
-        await navigator.clipboard.writeText(ip);
-        showToast();
-      } catch {
-        const t = document.createElement("textarea");
-        t.value = ip;
-        document.body.appendChild(t);
-        t.select();
-        document.execCommand("copy");
-        document.body.removeChild(t);
-        showToast();
-      }
-    }
-
-    document.getElementById("copyBtn").onclick = copyIP;
-    document.getElementById("copyMini").onclick = copyIP;
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+btn.onclick=async()=>{
+  try{
+    await navigator.clipboard.writeText(ip);
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),1400);
+  }catch(e){}
+};
+</script>
 </body>
 </html>

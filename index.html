@@ -1,151 +1,211 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Survival Freunde – Wartungsmodus</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Survival Freunde – Wartungsmodus</title>
 
-<style>
-:root{
-  --mc3:#00aaaa; /* Minecraft &3 */
-  --white:#ffffff;
-  --glass:rgba(0,0,0,.45);
-}
+  <style>
+    :root{
+      --mc3:#00aaaa; /* Minecraft &3 */
+      --white:#ffffff;
+      --glass: rgba(0,0,0,.48);
+      --stroke: rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+    }
 
-*{box-sizing:border-box}
-html,body{height:100%;margin:0}
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--white);
+      overflow:hidden;
+      background:#05070a;
+    }
 
-body{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-  color:var(--white);
-  background:#05070a;
-  overflow:hidden;
-}
+    /* Background image (dein Minecraft-Bild) */
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      background-image: url("bg.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: scale(1.03);
+      filter: saturate(1.05) contrast(1.05);
+    }
 
-/* Minecraft-style pixel background */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    linear-gradient(#7ec8ff 0%, #5aa8ff 45%, #3a7a3a 46%, #2e6b2e 100%);
-  z-index:-3;
-}
+    /* leichter Shader / Vignette */
+    .fx{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 700px at 70% 10%, rgba(255,255,255,.18), transparent 60%),
+        radial-gradient(900px 700px at 20% 0%, rgba(255,240,200,.12), transparent 58%),
+        radial-gradient(900px 900px at 50% 110%, rgba(0,0,0,.55), transparent 55%);
+      mix-blend-mode: screen;
+      opacity:.85;
+    }
 
-/* blocky landscape */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Cg shape-rendering='crispEdges'%3E%3Crect width='1600' height='900' fill='none'/%3E%3C!-- mountains --%3E%3Cpath d='M200 420 L420 220 L640 420 Z' fill='%239aa0a6'/%3E%3Cpath d='M520 420 L760 180 L1000 420 Z' fill='%238b9197'/%3E%3Cpath d='M860 420 L1120 240 L1380 420 Z' fill='%239ea4aa'/%3E%3C!-- trees --%3E%3Cg%3E%3Crect x='180' y='360' width='22' height='90' fill='%235b3a1d'/%3E%3Crect x='150' y='320' width='80' height='60' fill='%232f7f36'/%3E%3Crect x='420' y='350' width='22' height='100' fill='%235b3a1d'/%3E%3Crect x='390' y='310' width='80' height='70' fill='%23348b3c'/%3E%3Crect x='700' y='360' width='22' height='90' fill='%235b3a1d'/%3E%3Crect x='670' y='320' width='80' height='60' fill='%232f7f36'/%3E%3Crect x='1180' y='350' width='22' height='100' fill='%235b3a1d'/%3E%3Crect x='1150' y='310' width='80' height='70' fill='%23348b3c'/%3E%3C/g%3E%3C!-- river --%3E%3Cpath d='M0 520 C300 500 500 540 800 520 C1100 500 1300 560 1600 540 L1600 900 L0 900 Z' fill='%233a87c9'/%3E%3Cpath d='M0 560 C320 540 520 580 820 560 C1120 540 1320 600 1600 580 L1600 900 L0 900 Z' fill='%23449bdd'/%3E%3C/g%3E%3C/svg%3E");
-  background-size:cover;
-  background-position:center;
-  filter:saturate(1.1) contrast(1.05);
-  z-index:-2;
-}
+    .wrap{
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      padding: clamp(18px, 4vw, 56px);
+    }
 
-/* content */
-.wrapper{
-  height:100%;
-  display:flex;
-  align-items:center;
-  padding-left:6vw;
-}
+    .panel{
+      width:min(720px, 100%);
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: clamp(18px, 3vw, 34px);
+    }
 
-.panel{
-  background:var(--glass);
-  backdrop-filter:blur(12px);
-  border-radius:20px;
-  padding:36px 42px;
-  max-width:640px;
-}
+    h1{
+      margin: 0 0 10px 0;
+      font-size: clamp(44px, 5.4vw, 76px);
+      line-height: 1.02;
+      font-weight: 900;
+      color: var(--mc3);            /* &3 */
+      text-shadow: 0 10px 30px rgba(0,0,0,.55);
+    }
 
-h1{
-  margin:0 0 14px 0;
-  font-size:64px;
-  line-height:1;
-  font-weight:900;
-  text-shadow:0 8px 30px rgba(0,0,0,.6);
-}
+    .status{
+      margin: 0 0 20px 0;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--white);          /* weiß */
+      text-shadow: 0 10px 24px rgba(0,0,0,.55);
+    }
 
-.status{
-  margin:0 0 26px 0;
-  font-size:22px;
-  font-weight:800;
-  color:var(--mc3);
-  text-shadow:0 4px 18px rgba(0,0,0,.6);
-}
+    .ipRow{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-/* IP row */
-.ipRow{
-  display:flex;
-  gap:14px;
-  align-items:center;
-}
+    .ip{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 18px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.14);
+      user-select: all;
+    }
 
-.ip{
-  font-family:ui-monospace,Consolas,monospace;
-  font-size:18px;
-  padding:14px 18px;
-  border-radius:14px;
-  background:rgba(0,0,0,.55);
-  border:1px solid rgba(255,255,255,.15);
-}
+    .copy{
+      appearance:none;
+      border-radius: 14px;
+      border: 1px solid rgba(0,170,170,.65);
+      background: rgba(0,170,170,.22);
+      color: var(--white);
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor:pointer;
+      transition: filter .2s ease, transform .08s ease, background .2s ease;
+    }
+    .copy:hover{ filter: brightness(1.12); background: rgba(0,170,170,.32); }
+    .copy:active{ transform: translateY(1px); }
 
-button{
-  font-size:16px;
-  font-weight:900;
-  padding:14px 20px;
-  border-radius:14px;
-  border:1px solid rgba(0,170,170,.6);
-  background:rgba(0,170,170,.25);
-  color:white;
-  cursor:pointer;
-}
-button:hover{background:rgba(0,170,170,.4)}
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.70);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      padding: 10px 14px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .25s ease, transform .25s ease;
+      font-weight: 800;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-6px);
+    }
 
-.toast{
-  position:fixed;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,.7);
-  padding:10px 18px;
-  border-radius:12px;
-  opacity:0;
-  transition:.25s;
-}
-.toast.show{opacity:1}
-</style>
+    @media (max-width: 520px){
+      .ip{ width:100%; }
+      .copy{ width:100%; }
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrapper">
-  <div class="panel">
-    <h1>Survival Freunde</h1>
-    <p class="status">Website im Wartungsmodus.</p>
+  <div class="bg"></div>
+  <div class="fx"></div>
 
-    <div class="ipRow">
-      <div class="ip" id="ip">mc.survival-freunde.de</div>
-      <button id="copy">Kopieren</button>
-    </div>
-  </div>
-</div>
+  <main class="wrap">
+    <section class="panel">
+      <h1>Survival Freunde</h1>
+      <p class="status">Website im Wartungsmodus.</p>
 
-<div class="toast" id="toast">IP kopiert!</div>
+      <div class="ipRow">
+        <div class="ip" id="serverIp">mc.survival-freunde.de</div>
+        <button class="copy" id="copyBtn" type="button">Kopieren</button>
+      </div>
+    </section>
+  </main>
 
-<script>
-const btn=document.getElementById("copy");
-const ip=document.getElementById("ip").innerText;
-const toast=document.getElementById("toast");
+  <div class="toast" id="toast">IP kopiert!</div>
 
-btn.onclick=async()=>{
-  try{
-    await navigator.clipboard.writeText(ip);
-    toast.classList.add("show");
-    setTimeout(()=>toast.classList.remove("show"),1400);
-  }catch(e){}
-};
-</script>
+  <script>
+    const ipEl = document.getElementById("serverIp");
+    const btn  = document.getElementById("copyBtn");
+    const toast = document.getElementById("toast");
+
+    function showToast(){
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toast.classList.remove("show"), 1400);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        return true;
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+      }
+    }
+
+    btn.addEventListener("click", async ()=>{
+      const ok = await copyText(ipEl.textContent.trim());
+      if(ok) showToast();
+    });
+
+    ipEl.addEventListener("click", ()=>{
+      const r = document.createRange();
+      r.selectNodeContents(ipEl);
+      const s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+    });
+  </script>
 </body>
 </html>

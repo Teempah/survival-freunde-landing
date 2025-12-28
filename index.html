@@ -3,504 +3,250 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Survival Freunde • Wartungsarbeiten</title>
-  <meta name="description" content="Survival Freunde – Minecraft Survival Server. Website in Wartungsarbeiten. Server läuft weiter: mc.survival-freunde.de" />
+  <title>Survival Freunde • Website im Wartungsmodus</title>
 
-  <!-- Favicon / Logo -->
-  <link rel="icon" href="server-icon.png" />
-  <link rel="apple-touch-icon" href="server-icon.png" />
+  <meta name="description" content="Survival Freunde – Website im Wartungsmodus. Der Minecraft-Server läuft weiter: mc.survival-freunde.de">
+
+  <!-- Logo / Favicon -->
+  <link rel="icon" href="server-icon.png">
 
   <style>
-    :root{
-      --bg0:#070a0f;
-      --bg1:#0b1220;
-      --card:#0f1a2caa;
-      --stroke:#1f2e4a;
-      --text:#e9f2ff;
-      --muted:#b7c7e2;
-      --aqua:#31d3c6;
-      --green:#6bff95;
-      --wood:#caa06a;
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-      --radius: 18px;
-      --radius2: 22px;
-      --max: 1120px;
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: #ffffff;
+      background: #000;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: url("hero-bg.jpg") center / cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* dunkles Overlay für Lesbarkeit */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
       background:
-        radial-gradient(1200px 600px at 50% -10%, rgba(49,211,198,.22), transparent 55%),
-        radial-gradient(900px 500px at 15% 10%, rgba(107,255,149,.12), transparent 50%),
-        radial-gradient(900px 500px at 85% 15%, rgba(202,160,106,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      overflow-x:hidden;
+        radial-gradient(900px 500px at 80% 20%, rgba(255,230,170,0.35), transparent 55%),
+        linear-gradient(90deg, rgba(0,0,0,0.65), rgba(0,0,0,0.25));
     }
 
-    /* subtle Minecraft-ish grid */
-    .grid{
-      position:fixed; inset:0;
-      background-image:
-        linear-gradient(to right, rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(900px 450px at 50% 0%, #000 50%, transparent 100%);
-      pointer-events:none;
-      opacity:.55;
+    .content {
+      position: relative;
+      margin-left: clamp(20px, 6vw, 80px);
+      max-width: 1000px;
+      padding: 40px 0;
     }
 
-    /* top nav */
-    .nav{
-      position:sticky; top:0; z-index:5;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(7,10,15,.75), rgba(7,10,15,.25));
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    .nav-inner{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none; color:var(--text);
-      font-weight:800; letter-spacing:.2px;
-    }
-    .brand img{
-      width:34px;height:34px;border-radius:10px;
-      image-rendering: pixelated;
-      box-shadow: 0 10px 25px rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.15);
-    }
-    .pill{
-      font-size:12px;
-      color: rgba(233,242,255,.9);
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(49,211,198,.35);
-      background: rgba(49,211,198,.12);
+    /* LOGO */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
     }
 
-    /* hero */
-    .hero{
-      position:relative;
-      padding:72px 18px 32px;
-    }
-    .hero-inner{
-      max-width:var(--max);
-      margin:0 auto;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:24px;
-      align-items:center;
-    }
-    @media (max-width: 900px){
-      .hero-inner{grid-template-columns:1fr}
-    }
-
-    .kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:8px 12px;
-      border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      color: rgba(233,242,255,.95);
-      font-weight:650;
-      font-size:13px;
-    }
-    .dot{
-      width:8px; height:8px; border-radius:99px;
-      background: var(--green);
-      box-shadow: 0 0 0 6px rgba(107,255,149,.12);
-    }
-
-    h1{
-      margin:14px 0 10px;
-      font-size: clamp(34px, 4vw, 52px);
-      line-height:1.05;
-      letter-spacing:-.6px;
-    }
-    .sub{
-      color: var(--muted);
-      font-size: 16.5px;
-      line-height:1.5;
-      max-width: 62ch;
-      margin:0 0 18px;
-    }
-
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      margin: 18px 0 6px;
-    }
-    .btn{
-      appearance:none;
-      border:none;
-      cursor:pointer;
-      padding: 12px 14px;
+    .logo img {
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
-      font-weight:750;
-      letter-spacing:.15px;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      transition: transform .12s ease, filter .12s ease, background .12s ease;
-      text-decoration:none;
-    }
-    .btn:active{transform: translateY(1px)}
-    .btn-primary{
-      background: linear-gradient(135deg, rgba(49,211,198,.95), rgba(107,255,149,.75));
-      color: #051015;
-      box-shadow: 0 18px 50px rgba(49,211,198,.22);
-    }
-    .btn-secondary{
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      color: var(--text);
-    }
-    .copybox{
-      margin-top:10px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 12px;
-      border-radius: var(--radius);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(15,26,44,.45);
-      box-shadow: var(--shadow);
-      width: fit-content;
-      max-width: 100%;
-    }
-    .ip{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      color: rgba(233,242,255,.95);
-      font-weight:800;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width:min(520px, 70vw);
-    }
-    .hint{
-      font-size:12px;
-      color: rgba(183,199,226,.9);
-      margin-top: 8px;
-    }
-
-    /* right hero card */
-    .panel{
-      position:relative;
-      border-radius: var(--radius2);
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.10);
-      background:
-        radial-gradient(1000px 600px at 20% 0%, rgba(49,211,198,.16), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-      min-height: 320px;
-    }
-    .panel::before{
-      content:"";
-      position:absolute; inset:0;
-      background-image:
-        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
-      background-size: 48px 48px;
-      opacity:.22;
-      pointer-events:none;
-    }
-    .panel-inner{
-      position:relative;
-      padding:22px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .logo-big{
-      display:flex; align-items:center; gap:14px;
-    }
-    .logo-big img{
-      width:64px; height:64px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.12);
       image-rendering: pixelated;
-      background: rgba(0,0,0,.10);
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.2);
     }
-    .logo-big .t1{font-weight:900; font-size:20px}
-    .logo-big .t2{color:rgba(183,199,226,.92); font-size:13px}
 
-    .badges{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:2px;
+    .logo span {
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 0.4px;
     }
-    .badge{
-      font-size:12px;
-      padding:7px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.12);
-      color: rgba(233,242,255,.92);
-    }
-    .badge strong{color: var(--aqua)}
 
-    .status{
-      margin-top:auto;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,.10);
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(48px, 6vw, 88px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.05;
+      text-shadow: 0 20px 60px rgba(0,0,0,0.45);
     }
-    .status div{
-      color: rgba(233,242,255,.92);
-      font-size:13px;
-    }
-    .status span{color: rgba(183,199,226,.9)}
 
-    /* features */
-    .section{
-      max-width:var(--max);
-      margin: 0 auto;
-      padding: 16px 18px 60px;
+    .sub {
+      font-size: clamp(16px, 1.6vw, 22px);
+      max-width: 60ch;
+      margin-bottom: 22px;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 12px 40px rgba(0,0,0,0.45);
     }
-    .cards{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-      margin-top: 16px;
+
+    /* INFO BOX */
+    .info {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 14px 18px;
+      width: fit-content;
+      margin-bottom: 22px;
+      backdrop-filter: blur(6px);
     }
-    @media (max-width: 900px){
-      .cards{grid-template-columns:1fr}
+
+    .info b {
+      display: block;
+      margin-bottom: 2px;
     }
-    .card{
-      border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(15,26,44,.45);
-      box-shadow: 0 14px 45px rgba(0,0,0,.35);
-      padding: 16px 16px;
-      min-height: 150px;
-      position:relative;
-      overflow:hidden;
+
+    /* BUTTON */
+    .btn {
+      cursor: pointer;
+      background: #f2e2b8;
+      color: #111;
+      border: none;
+      padding: 12px 18px;
+      font-weight: 900;
+      border-radius: 8px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
     }
-    .card::after{
-      content:"";
-      position:absolute; inset:-60px -60px auto auto;
-      width:160px; height:160px;
-      background: radial-gradient(circle at 30% 30%, rgba(49,211,198,.22), transparent 60%);
-      transform: rotate(20deg);
-      pointer-events:none;
+
+    .btn:active { transform: translateY(1px); }
+
+    /* IP */
+    .ipbox {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
-    .card h3{
-      margin: 8px 0 6px;
-      font-size: 16px;
-      letter-spacing:.1px;
-    }
-    .card p{
-      margin:0;
-      color: rgba(183,199,226,.92);
-      font-size: 14px;
-      line-height:1.45;
-    }
-    .icon{
-      width:36px; height:36px;
+
+    .ip {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 12px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
+      padding: 12px 16px;
+      color: rgba(255,255,255,0.95);
     }
 
-    /* footer */
-    footer{
-      padding: 22px 18px 28px;
-      color: rgba(183,199,226,.85);
-      border-top: 1px solid rgba(255,255,255,.08);
-      background: rgba(7,10,15,.35);
+    .copy {
+      cursor: pointer;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      font-weight: 800;
     }
-    .foot{
-      max-width:var(--max);
-      margin:0 auto;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:center;
+
+    /* FOOTER */
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
       font-size: 13px;
+      color: rgba(255,255,255,0.7);
     }
-    .foot a{color: rgba(233,242,255,.9); text-decoration:none}
-    .toast{
+
+    /* TOAST */
+    .toast {
       position: fixed;
-      left: 50%;
       bottom: 18px;
+      left: 50%;
       transform: translateX(-50%);
-      padding: 10px 12px;
+      background: rgba(20,30,45,0.95);
+      color: white;
+      padding: 10px 14px;
       border-radius: 12px;
-      background: rgba(0,0,0,.70);
-      border:1px solid rgba(255,255,255,.12);
-      color: rgba(233,242,255,.92);
-      font-size: 13px;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .15s ease, transform .15s ease;
-      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
     }
-    .toast.show{
-      opacity:1;
+
+    .toast.show {
+      opacity: 1;
       transform: translateX(-50%) translateY(-4px);
     }
   </style>
 </head>
 
 <body>
-  <div class="grid" aria-hidden="true"></div>
+  <section class="hero">
+    <div class="content">
 
-  <header class="nav">
-    <div class="nav-inner">
-      <a class="brand" href="#">
+      <div class="logo">
         <img src="server-icon.png" alt="Survival Freunde Logo">
         <span>Survival Freunde</span>
-      </a>
-      <span class="pill">Website: Wartungsarbeiten • Server läuft</span>
-    </div>
-  </header>
+      </div>
 
-  <main>
-    <section class="hero">
-      <div class="hero-inner">
+      <h1>Survival Freunde</h1>
+
+      <p class="sub">
+        <b>Website im Wartungsmodus.</b><br>
+        Unsere Website wird aktuell überarbeitet.<br>
+        Der Minecraft-Server läuft weiterhin ganz normal.
+      </p>
+
+      <div class="info">
         <div>
-          <span class="kicker"><span class="dot"></span> Minecraft Survival • Community • Fairplay</span>
-          <h1>Wir bauen gerade um.<br>Der Server läuft weiter.</h1>
-          <p class="sub">
-            Unsere Website bekommt ein frisches, modernes Design im Minecraft-Survival-Stil.
-            In der Zwischenzeit kannst du ganz normal joinen.
-          </p>
-
-          <div class="cta-row">
-            <button class="btn btn-primary" id="copyBtn" type="button" title="IP kopieren">
-              📋 Join-IP kopieren
-            </button>
-            <a class="btn btn-secondary" href="#info" aria-label="Mehr Infos">
-              ℹ️ Mehr Infos
-            </a>
-          </div>
-
-          <div class="copybox" role="group" aria-label="Join-Adresse">
-            <div class="ip" id="ipText">mc.survival-freunde.de</div>
-            <button class="btn btn-secondary" style="padding:10px 12px;border-radius:12px" id="copyMini" type="button">
-              Kopieren
-            </button>
-          </div>
-          <div class="hint">Tipp: In Minecraft → Multiplayer → Server hinzufügen → Adresse einfügen.</div>
-        </div>
-
-        <aside class="panel" aria-label="Server-Karte">
-          <div class="panel-inner">
-            <div class="logo-big">
-              <img src="server-icon.png" alt="Survival Freunde Icon">
-              <div>
-                <div class="t1">Survival Freunde</div>
-                <div class="t2">Paper 1.21.10 • Survival • Langzeitwelt</div>
-              </div>
-            </div>
-
-            <div class="badges" aria-label="Highlights">
-              <span class="badge"><strong>✔</strong> Ruhiger Look</span>
-              <span class="badge"><strong>✔</strong> Zentrierte MOTD</span>
-              <span class="badge"><strong>✔</strong> LuckPerms Ränge</span>
-              <span class="badge"><strong>✔</strong> TAB Design</span>
-              <span class="badge"><strong>✔</strong> MiniMOTD</span>
-            </div>
-
-            <div class="status" id="info">
-              <div><b>Status:</b> <span>Online (Website im Umbau)</span></div>
-              <div><b>Slots:</b> <span>69</span></div>
-              <div><b>Modus:</b> <span>Survival</span></div>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section" aria-label="Kurzinfos">
-      <div class="cards">
-        <div class="card">
-          <div class="icon">🧱</div>
-          <h3>Survival, wie er sein soll</h3>
-          <p>Langfristiges Spielen, fairer Umgang und eine Community, die zusammen baut statt kaputt macht.</p>
-        </div>
-        <div class="card">
-          <div class="icon">🛡️</div>
-          <h3>Stabil & organisiert</h3>
-          <p>Paper 1.21.10, sauberes Rangsystem (LuckPerms) und Ingame-Design über TAB & MiniMOTD.</p>
-        </div>
-        <div class="card">
-          <div class="icon">🌿</div>
-          <h3>Modernes Design, Minecraft-Style</h3>
-          <p>Heller, freundlicher Auftritt mit dezentem Block-Pattern – modern statt kitschig.</p>
+          <b>Wartungsarbeiten</b>
+          Du kannst weiterhin spielen – kopiere einfach die Server-IP.
         </div>
       </div>
-    </section>
-  </main>
 
-  <footer>
-    <div class="foot">
-      <div>© <span id="year"></span> Survival Freunde</div>
-      <div>
-        Join: <a href="#" id="copyLink">mc.survival-freunde.de</a> •
-        <span style="opacity:.85">Website im Wartungsmodus</span>
+      <button class="btn" id="copyBtn">Server-IP kopieren</button>
+
+      <div class="ipbox">
+        <div class="ip" id="ipText">mc.survival-freunde.de</div>
+        <div class="copy" id="copyMini">Kopieren</div>
       </div>
+
     </div>
-  </footer>
 
-  <div class="toast" id="toast">Kopiert ✅</div>
+    <div class="footer">
+      © <span id="year"></span> Survival Freunde · mc.survival-freunde.de
+    </div>
+  </section>
+
+  <div class="toast" id="toast">IP kopiert ✅</div>
 
   <script>
     const ip = "mc.survival-freunde.de";
     const toast = document.getElementById("toast");
 
-    function showToast(text){
-      toast.textContent = text;
+    function showToast() {
       toast.classList.add("show");
-      setTimeout(()=>toast.classList.remove("show"), 1400);
+      setTimeout(() => toast.classList.remove("show"), 1400);
     }
 
-    async function copyIP(){
-      try{
+    async function copyIP() {
+      try {
         await navigator.clipboard.writeText(ip);
-        showToast("IP kopiert ✅");
-      }catch(e){
-        // Fallback
-        const ta = document.createElement("textarea");
-        ta.value = ip;
-        document.body.appendChild(ta);
-        ta.select();
+        showToast();
+      } catch {
+        const t = document.createElement("textarea");
+        t.value = ip;
+        document.body.appendChild(t);
+        t.select();
         document.execCommand("copy");
-        document.body.removeChild(ta);
-        showToast("IP kopiert ✅");
+        document.body.removeChild(t);
+        showToast();
       }
     }
 
-    document.getElementById("copyBtn").addEventListener("click", copyIP);
-    document.getElementById("copyMini").addEventListener("click", copyIP);
-    document.getElementById("copyLink").addEventListener("click", (e)=>{ e.preventDefault(); copyIP(); });
-
+    document.getElementById("copyBtn").onclick = copyIP;
+    document.getElementById("copyMini").onclick = copyIP;
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>

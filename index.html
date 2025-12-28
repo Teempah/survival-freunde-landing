@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Survival Freunde — Minecraft Server</title>
+  <meta name="description" content="Survival Freunde — 1.21.10 Survival. Trete der Community bei!" />
+  <style>
+    :root{
+      --bg:#070B12;
+      --card:#0C1220;
+      --border:rgba(255,255,255,.08);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --aqua:#16d2d2;
+      --aqua2:#0aa7b8;
+      --red:#7a0b16;         /* dunkles Rot */
+      --gray:#9aa4b2;
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+      --max: 1080px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(22,210,210,.18), transparent 60%),
+        radial-gradient(900px 500px at 85% 5%, rgba(122,11,22,.22), transparent 55%),
+        radial-gradient(1200px 800px at 50% 120%, rgba(10,167,184,.12), transparent 55%),
+        linear-gradient(180deg, #070B12 0%, #05070C 100%);
+      min-height:100vh;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    header{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding:10px 0 24px;
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{
+      width:42px; height:42px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(22,210,210,.85), rgba(10,167,184,.55));
+      box-shadow: 0 10px 30px rgba(22,210,210,.18);
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .logo:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 40%),
+                  radial-gradient(circle at 70% 70%, rgba(122,11,22,.35), transparent 45%);
+      transform: rotate(25deg);
+      opacity:.8;
+    }
+    .brand h1{font-size:16px; margin:0; letter-spacing:.3px}
+    .tag{font-size:12px; color:var(--muted)}
+    .toplinks{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .pill{
+      padding:10px 12px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      text-decoration:none;
+      font-size:13px; color:var(--muted);
+      transition:.15s ease;
+    }
+    .pill:hover{transform: translateY(-1px); color:var(--text); border-color: rgba(255,255,255,.14)}
+    .hero{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-120px -120px auto auto;
+      width:380px; height:380px; border-radius:50%;
+      background: radial-gradient(circle, rgba(22,210,210,.25), transparent 60%);
+      filter: blur(1px);
+    }
+    .hero:after{
+      content:"";
+      position:absolute; inset:auto auto -160px -160px;
+      width:420px; height:420px; border-radius:50%;
+      background: radial-gradient(circle, rgba(122,11,22,.28), transparent 60%);
+      filter: blur(1px);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:20px;
+      position:relative;
+      z-index:1;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns: 1fr}
+      .toplinks{justify-content:flex-start}
+    }
+    .headline{
+      font-size:44px;
+      line-height:1.05;
+      margin:0 0 10px;
+      letter-spacing:-.8px;
+    }
+    .headline .accent{color:var(--aqua)}
+    .sub{
+      margin:0 0 16px;
+      color:var(--muted);
+      font-size:16px;
+      max-width: 58ch;
+    }
+    .ctaRow{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:600;
+      transition:.15s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px); border-color: rgba(255,255,255,.16)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(22,210,210,.85), rgba(10,167,184,.55));
+      border-color: rgba(22,210,210,.35);
+      color:#041016;
+    }
+    .btn.primary:hover{filter: brightness(1.05)}
+    .btn.ghost{color:var(--muted)}
+    .panel{
+      border:1px solid var(--border);
+      background: rgba(12,18,32,.55);
+      border-radius: var(--radius);
+      padding:16px;
+      backdrop-filter: blur(8px);
+    }
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .k{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding:12px;
+      background: rgba(255,255,255,.03);
+    }
+    .k .label{font-size:12px; color:var(--muted)}
+    .k .value{font-size:16px; font-weight:700; margin-top:6px}
+    .ipbox{
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding:12px;
+      background: rgba(255,255,255,.03);
+      margin-top:12px;
+    }
+    .ip{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:14px;
+      color: rgba(255,255,255,.86);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .hint{font-size:12px; color:var(--muted); margin-top:10px}
+    .section{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width: 860px){
+      .section{grid-template-columns:1fr}
+    }
+    .card{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(12,18,32,.35);
+      padding:16px;
+    }
+    .card h3{margin:0 0 8px; font-size:14px}
+    .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.5}
+    footer{
+      margin:22px 0 12px;
+      color:rgba(255,255,255,.45);
+      font-size:12px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+    .statusDot{
+      display:inline-block; width:8px; height:8px; border-radius:999px;
+      background: #22c55e;
+      box-shadow: 0 0 18px rgba(34,197,94,.35);
+      margin-right:8px;
+    }
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.9);
+      padding:10px 12px;
+      border-radius: 999px;
+      font-size:13px;
+      backdrop-filter: blur(10px);
+      opacity:0;
+      pointer-events:none;
+      transition: .2s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-2px)}
+    .muted{color:var(--muted)}
+    .red{color:var(--red)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Survival Freunde</h1>
+          <div class="tag">Minecraft Survival • Version <span class="red">1.21.10</span></div>
+        </div>
+      </div>
+      <nav class="toplinks">
+        <!-- Links optional anpassen -->
+        <a class="pill" href="#" onclick="return false;">Discord (Link eintragen)</a>
+        <a class="pill" href="#" onclick="return false;">Regeln</a>
+        <a class="pill" href="#" onclick="return false;">Team</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <div class="grid">
+        <div>
+          <h2 class="headline">Willkommen bei <span class="accent">Survival Freunde</span>.</h2>
+          <p class="sub">
+            Ein ruhiger Survival-Server mit Fokus auf Community, Fairplay und langfristigem Spielspaß.
+            Join einfach über die Adresse unten.
+          </p>
+
+          <div class="ctaRow">
+            <button class="btn primary" id="copyBtn" type="button">IP kopieren</button>
+            <a class="btn ghost" href="#how">So joinst du</a>
+          </div>
+
+          <div class="hint muted" id="how" style="margin-top:12px">
+            <span class="statusDot"></span>Server online • Paper 1.21.10 • Slots: 69
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="kpi">
+            <div class="k">
+              <div class="label">Version</div>
+              <div class="value"><span class="red">1.21.10</span></div>
+            </div>
+            <div class="k">
+              <div class="label">Spielmodus</div>
+              <div class="value">Survival</div>
+            </div>
+            <div class="k">
+              <div class="label">Regeln</div>
+              <div class="value">Fairplay</div>
+            </div>
+            <div class="k">
+              <div class="label">Community</div>
+              <div class="value">Aktiv</div>
+            </div>
+          </div>
+
+          <div class="ipbox">
+            <!-- Hier deine Join-Adresse rein: z.B. mc.survival-freunde.de -->
+            <div class="ip" id="serverIp">mc.survival-freunde.de</div>
+            <button class="btn" id="copyBtn2" type="button">Kopieren</button>
+          </div>
+          <div class="hint">
+            Tipp: In Minecraft → Multiplayer → Server hinzufügen → Adresse einfügen.
+          </div>
+        </aside>
+      </div>
+
+      <section class="section" aria-label="Highlights">
+        <div class="card">
+          <h3>🌿 Langzeit-Survival</h3>
+          <p>Stabiler Spielstand, klare Regeln, fairer Fortschritt. Ideal für dauerhafte Basen.</p>
+        </div>
+        <div class="card">
+          <h3>🛡️ Fairplay & Moderation</h3>
+          <p>Klare Regeln, aktives Team und ein angenehmes Miteinander – ohne Drama.</p>
+        </div>
+        <div class="card">
+          <h3>🎉 Events & Community</h3>
+          <p>Regelmäßige Aktionen, gemeinsames Bauen und eine freundliche Community.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> Survival Freunde</div>
+      <div class="muted">Kontakt/Discord-Link eintragen • Impressum/Datenschutz falls nötig</div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">Kopiert ✓</div>
+
+  <script>
+    const ip = document.getElementById('serverIp').textContent.trim();
+    const toast = document.getElementById('toast');
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), 1100);
+    }
+    async function copy(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast('Adresse kopiert ✓');
+      }catch(e){
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showToast('Adresse kopiert ✓');
+      }
+    }
+
+    document.getElementById('copyBtn').addEventListener('click', ()=>copy(ip));
+    document.getElementById('copyBtn2').addEventListener('click', ()=>copy(ip));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

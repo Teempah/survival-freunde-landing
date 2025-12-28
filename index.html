@@ -1,211 +1,190 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Survival Freunde – Wartungsmodus</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Survival Freunde – Wartungsmodus</title>
 
-  <style>
-    :root{
-      --mc3:#00aaaa; /* Minecraft &3 */
-      --white:#ffffff;
-      --glass: rgba(0,0,0,.48);
-      --stroke: rgba(255,255,255,.14);
-      --shadow: 0 18px 60px rgba(0,0,0,.55);
-    }
+<style>
+:root{
+  --mc3:#00aaaa; /* Minecraft &3 */
+  --white:#ffffff;
+  --glass: rgba(0,0,0,.48);
+  --stroke: rgba(255,255,255,.14);
+  --shadow: 0 18px 60px rgba(0,0,0,.55);
+}
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color: var(--white);
-      overflow:hidden;
-      background:#05070a;
-    }
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
 
-    * Background image (bg.png) */
-    .bg{
-      position:fixed;
-      inset:0;
-      z-index:-3;
-      background-image: url("bg.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      transform: scale(1.03);
-      filter: saturate(1.05) contrast(1.05);
-    }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--white);
+  overflow:hidden;
+  background:#05070a;
 
-    /* leichter Shader / Vignette */
-    .fx{
-      position:fixed;
-      inset:0;
-      z-index:-2;
-      pointer-events:none;
-      background:
-        radial-gradient(1200px 700px at 70% 10%, rgba(255,255,255,.18), transparent 60%),
-        radial-gradient(900px 700px at 20% 0%, rgba(255,240,200,.12), transparent 58%),
-        radial-gradient(900px 900px at 50% 110%, rgba(0,0,0,.55), transparent 55%);
-      mix-blend-mode: screen;
-      opacity:.85;
-    }
+  /* TEXT NICHT MARKIERBAR */
+  user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  cursor:default;
+}
 
-    .wrap{
-      height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      padding: clamp(18px, 4vw, 56px);
-    }
+/* Hintergrundbild */
+.bg{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  background-image: url("bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.03);
+  filter: saturate(1.05) contrast(1.05);
+}
 
-    .panel{
-      width:min(720px, 100%);
-      background: var(--glass);
-      border: 1px solid var(--stroke);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: clamp(18px, 3vw, 34px);
-    }
+/* leichter Shader */
+.fx{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    radial-gradient(1200px 700px at 70% 10%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(900px 700px at 20% 0%, rgba(255,240,200,.12), transparent 58%),
+    radial-gradient(900px 900px at 50% 110%, rgba(0,0,0,.55), transparent 55%);
+}
 
-    h1{
-      margin: 0 0 10px 0;
-      font-size: clamp(44px, 5.4vw, 76px);
-      line-height: 1.02;
-      font-weight: 900;
-      color: var(--mc3);            /* &3 */
-      text-shadow: 0 10px 30px rgba(0,0,0,.55);
-    }
+/* Layout */
+.wrap{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding: clamp(18px, 4vw, 56px);
+}
 
-    .status{
-      margin: 0 0 20px 0;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--white);          /* weiß */
-      text-shadow: 0 10px 24px rgba(0,0,0,.55);
-    }
+.panel{
+  width:min(720px, 100%);
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: clamp(18px, 3vw, 34px);
+}
 
-    .ipRow{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+/* Texte */
+h1{
+  margin: 0 0 10px 0;
+  font-size: clamp(44px, 5.4vw, 76px);
+  line-height: 1.02;
+  font-weight: 900;
+  color: var(--mc3);
+  text-shadow: 0 10px 30px rgba(0,0,0,.55);
+}
 
-    .ip{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 18px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.45);
-      border: 1px solid rgba(255,255,255,.14);
-      user-select: all;
-    }
+.status{
+  margin: 0 0 20px 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--white);
+  text-shadow: 0 10px 24px rgba(0,0,0,.55);
+}
 
-    .copy{
-      appearance:none;
-      border-radius: 14px;
-      border: 1px solid rgba(0,170,170,.65);
-      background: rgba(0,170,170,.22);
-      color: var(--white);
-      padding: 12px 16px;
-      font-size: 16px;
-      font-weight: 900;
-      cursor:pointer;
-      transition: filter .2s ease, transform .08s ease, background .2s ease;
-    }
-    .copy:hover{ filter: brightness(1.12); background: rgba(0,170,170,.32); }
-    .copy:active{ transform: translateY(1px); }
+/* IP Bereich */
+.ipRow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
 
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,.70);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 14px;
-      padding: 10px 14px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .25s ease, transform .25s ease;
-      font-weight: 800;
-    }
-    .toast.show{
-      opacity:1;
-      transform: translateX(-50%) translateY(-6px);
-    }
+.ip{
+  font-family: ui-monospace, Consolas, monospace;
+  font-size:18px;
+  padding:12px 14px;
+  border-radius:14px;
+  background: rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.14);
 
-    @media (max-width: 520px){
-      .ip{ width:100%; }
-      .copy{ width:100%; }
-    }
-  </style>
+  /* NUR HIER Text markierbar */
+  user-select:all;
+  -webkit-user-select:all;
+  cursor:text;
+}
+
+.copy{
+  border-radius:14px;
+  border:1px solid rgba(0,170,170,.65);
+  background: rgba(0,170,170,.25);
+  color:white;
+  padding:12px 16px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+.copy:hover{
+  background: rgba(0,170,170,.4);
+}
+
+/* Toast */
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  background: rgba(0,0,0,.7);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:14px;
+  padding:10px 14px;
+  box-shadow: var(--shadow);
+  opacity:0;
+  transition:.25s;
+  font-weight:800;
+}
+.toast.show{ opacity:1; }
+
+/* Mobile */
+@media (max-width:520px){
+  .ip,.copy{ width:100%; }
+}
+</style>
 </head>
 
 <body>
-  <div class="bg"></div>
-  <div class="fx"></div>
+<div class="bg"></div>
+<div class="fx"></div>
 
-  <main class="wrap">
-    <section class="panel">
-      <h1>Survival Freunde</h1>
-      <p class="status">Website im Wartungsmodus.</p>
+<main class="wrap">
+  <section class="panel">
+    <h1>Survival Freunde</h1>
+    <p class="status">Website im Wartungsmodus.</p>
 
-      <div class="ipRow">
-        <div class="ip" id="serverIp">mc.survival-freunde.de</div>
-        <button class="copy" id="copyBtn" type="button">Kopieren</button>
-      </div>
-    </section>
-  </main>
+    <div class="ipRow">
+      <div class="ip" id="serverIp">mc.survival-freunde.de</div>
+      <button class="copy" id="copyBtn">Kopieren</button>
+    </div>
+  </section>
+</main>
 
-  <div class="toast" id="toast">IP kopiert!</div>
+<div class="toast" id="toast">IP kopiert!</div>
 
-  <script>
-    const ipEl = document.getElementById("serverIp");
-    const btn  = document.getElementById("copyBtn");
-    const toast = document.getElementById("toast");
+<script>
+const ipEl = document.getElementById("serverIp");
+const btn  = document.getElementById("copyBtn");
+const toast = document.getElementById("toast");
 
-    function showToast(){
-      toast.classList.add("show");
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(()=>toast.classList.remove("show"), 1400);
-    }
-
-    async function copyText(text){
-      try{
-        await navigator.clipboard.writeText(text);
-        return true;
-      }catch(e){
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.style.position = "fixed";
-        ta.style.left = "-9999px";
-        document.body.appendChild(ta);
-        ta.select();
-        const ok = document.execCommand("copy");
-        document.body.removeChild(ta);
-        return ok;
-      }
-    }
-
-    btn.addEventListener("click", async ()=>{
-      const ok = await copyText(ipEl.textContent.trim());
-      if(ok) showToast();
-    });
-
-    ipEl.addEventListener("click", ()=>{
-      const r = document.createRange();
-      r.selectNodeContents(ipEl);
-      const s = window.getSelection();
-      s.removeAllRanges();
-      s.addRange(r);
-    });
-  </script>
+btn.onclick = async () => {
+  try{
+    await navigator.clipboard.writeText(ipEl.textContent.trim());
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),1400);
+  }catch(e){}
+};
+</script>
 </body>
 </html>

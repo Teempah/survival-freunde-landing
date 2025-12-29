@@ -30,7 +30,7 @@ body{
   position:fixed;
   inset:0;
   z-index:-3;
-  background-image:url("hero-bg.png");
+  background-image:url("bg.png");
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
@@ -138,4 +138,65 @@ h1{
   padding:10px 14px;
   border-radius:14px;
   opacity:0;
-  transition
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.14);
+}
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(-6px);
+}
+</style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="fx" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="panel">
+      <h1>Survival Freunde</h1>
+      <p class="status">Website im Wartungsmodus</p>
+
+      <div class="ipRow">
+        <div class="ip" id="ip">survival-freunde.de</div>
+        <button class="copy" id="copy" type="button">IP kopieren</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Kopiert ✅</div>
+
+<script>
+(() => {
+  const ip = document.getElementById('ip');
+  const btn = document.getElementById('copy');
+  const toast = document.getElementById('toast');
+
+  const show = () => {
+    toast.classList.add('show');
+    clearTimeout(show._t);
+    show._t = setTimeout(() => toast.classList.remove('show'), 1200);
+  };
+
+  btn.addEventListener('click', async () => {
+    const text = ip.textContent.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+      show();
+    } catch {
+      // Fallback (für Browser ohne Clipboard API)
+      const range = document.createRange();
+      range.selectNodeContents(ip);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand('copy');
+      sel.removeAllRanges();
+      show();
+    }
+  });
+})();
+</script>
+</body>
+</html>
